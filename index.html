@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Management System - API Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Bookstore Management System</h1>
+            <p>Interactive API Demo - See Real Outputs</p>
+        </header>
+
+        <div class="auth-section">
+            <div class="auth-status" id="authStatus">
+                <span class="status-indicator offline"></span>
+                Not Authenticated
+            </div>
+            <button id="loginBtn" class="btn btn-primary">Login as Admin</button>
+            <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+        </div>
+
+        <div class="api-sections">
+            <!-- Authentication Section -->
+            <div class="api-section">
+                <h2>🔐 Authentication APIs</h2>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="url">/api/register</span>
+                        <button class="test-btn" onclick="testRegister()">Test</button>
+                    </div>
+                    <div class="response" id="registerResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="url">/api/login</span>
+                        <button class="test-btn" onclick="testLogin()">Test</button>
+                    </div>
+                    <div class="response" id="loginResponse"></div>
+                </div>
+            </div>
+
+            <!-- Books Section -->
+            <div class="api-section">
+                <h2>📖 Books Management APIs</h2>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="url">/api/books</span>
+                        <button class="test-btn" onclick="testGetBooks()">Test</button>
+                    </div>
+                    <div class="response" id="getBooksResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="url">/api/books/1</span>
+                        <button class="test-btn" onclick="testGetBook()">Test</button>
+                    </div>
+                    <div class="response" id="getBookResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="url">/api/books</span>
+                        <span class="auth-required">🔒 Admin Only</span>
+                        <button class="test-btn" onclick="testCreateBook()">Test</button>
+                    </div>
+                    <div class="response" id="createBookResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="url">/api/books?search=gatsby</span>
+                        <button class="test-btn" onclick="testSearchBooks()">Test</button>
+                    </div>
+                    <div class="response" id="searchBooksResponse"></div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="api-section">
+                <h2>🛒 Orders Management APIs</h2>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="url">/api/orders</span>
+                        <span class="auth-required">🔒 Auth Required</span>
+                        <button class="test-btn" onclick="testCreateOrder()">Test</button>
+                    </div>
+                    <div class="response" id="createOrderResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="url">/api/orders/my-orders</span>
+                        <span class="auth-required">🔒 Auth Required</span>
+                        <button class="test-btn" onclick="testGetMyOrders()">Test</button>
+                    </div>
+                    <div class="response" id="getMyOrdersResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="url">/api/orders</span>
+                        <span class="auth-required">🔒 Admin Only</span>
+                        <button class="test-btn" onclick="testGetAllOrders()">Test</button>
+                    </div>
+                    <div class="response" id="getAllOrdersResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method put">PUT</span>
+                        <span class="url">/api/orders/1/status?status=CONFIRMED</span>
+                        <span class="auth-required">🔒 Admin Only</span>
+                        <button class="test-btn" onclick="testUpdateOrderStatus()">Test</button>
+                    </div>
+                    <div class="response" id="updateOrderStatusResponse"></div>
+                </div>
+            </div>
+
+            <!-- Error Handling Section -->
+            <div class="api-section">
+                <h2>⚠️ Error Handling Examples</h2>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="url">/api/books/999</span>
+                        <span class="error-demo">404 Error</span>
+                        <button class="test-btn" onclick="testNotFound()">Test</button>
+                    </div>
+                    <div class="response" id="notFoundResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="url">/api/books</span>
+                        <span class="error-demo">401 Unauthorized</span>
+                        <button class="test-btn" onclick="testUnauthorized()">Test</button>
+                    </div>
+                    <div class="response" id="unauthorizedResponse"></div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="url">/api/books</span>
+                        <span class="error-demo">400 Validation Error</span>
+                        <button class="test-btn" onclick="testValidationError()">Test</button>
+                    </div>
+                    <div class="response" id="validationErrorResponse"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>📊 API Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Books</h3>
+                    <div class="stat-number">25</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <div class="stat-number">150</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Orders</h3>
+                    <div class="stat-number">89</div>
+                </div>
+                <div class="stat-card">
+                    <h3>API Endpoints</h3>
+                    <div class="stat-number">12</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
